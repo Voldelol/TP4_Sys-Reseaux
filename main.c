@@ -6,7 +6,13 @@
 #include <stdlib.h>
 #include "segdef.h"
 
+
+
+
 int main() {
+    for(int j=0; j<12; j++){
+        fork();
+    }
     int semdispo,seminit,semres, shmid;
     segment *shmptr;
 
@@ -52,10 +58,11 @@ int main() {
         wait_sem(semres,res_ok);
 
 
-        printf("Received result: %ld\n", shmptr->result);
-        printf("Local result: %ld\n", moy);
-        if(shmptr->result==moy){
-            printf("GG\n");
+        if(shmptr->result!=moy){
+            printf("ERROR\n");
+        }
+        else{
+            printf("gg\n");
         }
         lib_sem(seminit,seg_init);
         acq_sem(semres, res_ok);
