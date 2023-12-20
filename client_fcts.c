@@ -19,7 +19,7 @@ void wait_sem(int sem_id, int num_sem) {
     struct sembuf op;
 
     op.sem_num = num_sem;
-    op.sem_op = -1;
+    op.sem_op = 0;
     op.sem_flg = 0;
     if (semop(sem_id, &op, 1) == -1) {
         perror("semop wait");
@@ -40,14 +40,14 @@ void acq_sem(int sem_id, int num_sem) {
 }
 
 void lib_sem(int sem_id, int num_sem) {
+    struct sembuf op;
 
-    struct sembuf operations[1];
 
-    operations[0].sem_num = num_sem;
-    operations[0].sem_op = 1;
-    operations[0].sem_flg = 0;
+    op.sem_num = num_sem;
+    op.sem_op = 1;
+    op.sem_flg = 0;
 
-    if (semop(sem_id, operations, 1) == -1) {
+    if (semop(sem_id, &op, 1) == -1) {
         perror("semop - lib_sem");
         exit(1);
     }
